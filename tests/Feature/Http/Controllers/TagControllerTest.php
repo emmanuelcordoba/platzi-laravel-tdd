@@ -9,7 +9,7 @@ use Tests\TestCase;
 
 class TagControllerTest extends TestCase
 {
-    use RefreshDatabase;
+    use WithFaker, RefreshDatabase;
 
     public function test_store(): void
     {
@@ -20,7 +20,9 @@ class TagControllerTest extends TestCase
 
     public function test_delete(): void
     {
-        $tag = Tag::factory()->create();
+        //$tag = Tag::factory()->create();
+        // Una alternativa, sin configurar el factory del modelo.
+        $tag = Tag::create(['name' => $this->faker->word()]);
         $this->delete("/tags/$tag->id")
             ->assertRedirect('/');
         $this->assertDatabaseMissing('tags', ['name' => $tag->name]);
