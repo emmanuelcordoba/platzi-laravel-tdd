@@ -6,11 +6,23 @@
         <title>Laravel</title>
     </head>
     <body>
+    <form action="tags" method="POST">
+        @csrf
+        <input type="text" name="name" id="name">
+        <input type="submit" value="Agregar">
+    </form>
         <h1>Listado de Etiquetas</h1>
         <table>
             @forelse($tags as $tag)
                 <tr>
                     <td>{{ $tag->name }}</td>
+                    <td>
+                        <form action="tags/{{$tag->id}}" method="post">
+                            @csrf
+                            @method('DELETE')
+                            <input type="submit" value="Borrar">
+                        </form>
+                    </td>
                 </tr>
             @empty
                 <tr><td>No hay etiquetas</td></tr>
